@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Xaerisoft</title>
+<style>
+body{margin:0;background:#050308;color:#e8eef5;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:-apple-system,sans-serif}
+.l{text-align:center}
+.s{width:40px;height:40px;border:3px solid rgba(138,90,255,0.15);border-top:3px solid #8a5aff;border-radius:50%;animation:r 1s linear infinite;margin:0 auto 12px}
+@keyframes r{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div class="l" id="loaderBox">
+    <div class="s"></div>
+    <div id="loaderText">Memuat Xaerisoft...</div>
+</div>
+
+<script>
+(function(){
+    const ua = navigator.userAgent.toLowerCase();
+    const isBot = ua.includes("python") || ua.includes("curl") || ua.includes("headless") || navigator.webdriver;
+
+    if (isBot) {
+        document.getElementById("loaderText").innerText = "Akses Ditolak.";
+        return;
+    }
+
+    // Otomatis memilih payload berdasarkan URL atau folder yang sedang dibuka
+    let targetPayload = 'payload_home.txt'; // Default ke halaman home
+    const path = window.location.pathname;
+    
+    // Jika diakses melalui sub-folder tools atau path tertentu
+    if (path.includes('tools') || path.includes('dashboard')) {
+        targetPayload = 'payload_tools.txt';
+    }
+
+    fetch(targetPayload, {
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Cache-Control': 'no-cache'
+        }
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Gagal mengambil data");
+        return response.text();
+    })
+    .then(b64 => {
+        try {
+            const binString = atob(b64.trim());
+            const bytes = new Uint8Array(binString.length);
+            for (let i = 0; i < binString.length; i++) {
+                bytes[i] = binString.charCodeAt(i);
+            }
+            const decodedHTML = new TextDecoder('utf-8').decode(bytes);
+            
+            document.open();
+            document.write(decodedHTML);
+            document.close();
+        } catch(e) {
+            document.getElementById("loaderText").innerText = "Error memuat halaman.";
+        }
+    })
+    .catch(err => {
+        document.getElementById("loaderText").innerText = "Koneksi terputus.";
+    });
+})();
+</script>
+
+<script>
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+    if(e.key==='F12') { e.preventDefault(); return false; }
+    if(e.ctrlKey && e.shiftKey && (e.key==='I' || e.key==='J' || e.key==='C')) { e.preventDefault(); return false; }
+    if(e.ctrlKey && (e.key==='u' || e.key==='s' || e.key==='p')) { e.preventDefault(); return false; }
+});
+</script>
+</body>
+</html>

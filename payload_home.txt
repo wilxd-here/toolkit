@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Tools · Xaerisoft</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            background: #050308;
+            color: #e8eef5;
+            font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            animation: float 15s ease-in-out infinite;
+        }
+        .orb-1 { width:400px; height:400px; background:#8a5aff; top:-100px; left:-100px; }
+        .orb-2 { width:350px; height:350px; background:#ff5a8a; bottom:-100px; right:-100px; animation-delay:-5s; }
+        .orb-3 { width:300px; height:300px; background:#4a9eff; top:50%; left:50%; animation-delay:-10s; }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, -50px) scale(1.1); }
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 16px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(138, 90, 255, 0.15);
+            backdrop-filter: blur(20px);
+            background: rgba(5, 3, 8, 0.8);
+        }
+        .navbar .logo {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #b08aff, #ff8a5a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+        .navbar .logo span {
+            color: #e8eef5;
+            -webkit-text-fill-color: #e8eef5;
+        }
+        .navbar .back {
+            padding: 8px 18px;
+            background: transparent;
+            color: #b08aff;
+            border: 1px solid rgba(138, 90, 255, 0.3);
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .navbar .back:hover {
+            background: rgba(138, 90, 255, 0.1);
+        }
+
+        .hero {
+            position: relative;
+            z-index: 10;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 24px 20px;
+            text-align: center;
+        }
+        .hero .icon {
+            font-size: 56px;
+            display: block;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 0 30px rgba(138, 90, 255, 0.5));
+        }
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #b08aff, #ff8a5a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            color: #8a7aaa;
+            font-size: 14px;
+        }
+
+        .stats {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 14px;
+        }
+        .stat {
+            background: rgba(20, 10, 35, 0.5);
+            border: 1px solid rgba(138, 90, 255, 0.15);
+            border-radius: 16px;
+            padding: 18px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+        }
+        .stat .value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #b08aff;
+        }
+        .stat .label {
+            font-size: 10px;
+            color: #6a5a7a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .tools-grid {
+            position: relative;
+            z-index: 10;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 24px 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .tool-card {
+            background: rgba(20, 10, 35, 0.5);
+            border: 1px solid rgba(138, 90, 255, 0.15);
+            border-radius: 18px;
+            padding: 24px;
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            display: block;
+        }
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(138, 90, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
+        .tool-card:hover::before { left: 100%; }
+        .tool-card:hover {
+            border-color: rgba(138, 90, 255, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 50px rgba(138, 90, 255, 0.2);
+        }
+        .tool-card .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 14px;
+        }
+        .tool-card .icon {
+            font-size: 32px;
+            display: inline-block;
+            filter: drop-shadow(0 0 15px rgba(138, 90, 255, 0.4));
+        }
+        .tool-card .tag {
+            padding: 3px 10px;
+            background: rgba(74, 255, 158, 0.1);
+            border: 1px solid rgba(74, 255, 158, 0.3);
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #4aff9e;
+        }
+        .tool-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #e8eef5;
+        }
+        .tool-card p {
+            color: #8a7aaa;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 24px;
+            color: #3a2a4a;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            border-top: 1px solid rgba(138, 90, 255, 0.1);
+        }
+        .footer span { color: #8a5aff; }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 24px; }
+            .navbar { padding: 12px 16px; }
+            .navbar .logo { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<div class="glow-orb orb-1"></div>
+<div class="glow-orb orb-2"></div>
+<div class="glow-orb orb-3"></div>
+
+<nav class="navbar">
+    <a href="../index.html" class="logo">XAERI<span>SOFT</span></a>
+    <a href="../index.html" class="back">← Home</a>
+</nav>
+
+<section class="hero">
+    <span class="icon">🎯</span>
+    <h1>Dashboard Tools</h1>
+    <p>Semua tools Xaerisoft ada di sini. Tinggal pilih!</p>
+</section>
+
+<div class="stats">
+    <div class="stat">
+        <div class="value" id="toolCount">4</div>
+        <div class="label">Tools</div>
+    </div>
+    <div class="stat">
+        <div class="value">✅</div>
+        <div class="label">Gratis</div>
+    </div>
+    <div class="stat">
+        <div class="value">∞</div>
+        <div class="label">Unlimited</div>
+    </div>
+</div>
+
+<div class="tools-grid" id="toolsGrid">
+    <a href="get-html/" class="tool-card">
+        <div class="header-row">
+            <span class="icon">📥</span>
+            <span class="tag">FREE</span>
+        </div>
+        <h3>Get HTML</h3>
+        <p>Ambil source code HTML dari website manapun.</p>
+    </a>
+
+    <a href="tiktok-dl/" class="tool-card">
+        <div class="header-row">
+            <span class="icon">📱</span>
+            <span class="tag">FREE</span>
+        </div>
+        <h3>TikTok Downloader</h3>
+        <p>Download video TikTok tanpa watermark HD.</p>
+    </a>
+
+    <a href="image-tools/" class="tool-card">
+        <div class="header-row">
+            <span class="icon">🎨</span>
+            <span class="tag">FREE</span>
+        </div>
+        <h3>Image Tools</h3>
+        <p>Compress, resize, convert gambar.</p>
+    </a>
+
+    <a href="text-tools/" class="tool-card">
+        <div class="header-row">
+            <span class="icon">📝</span>
+            <span class="tag">FREE</span>
+        </div>
+        <h3>Text Tools</h3>
+        <p>Generator, converter, formatter teks.</p>
+    </a>
+</div>
+
+<footer class="footer">
+    <span>◆</span> XAERISOFT · 2026 <span>◆</span>
+</footer>
+
+<script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const particles = [];
+    for (let i = 0; i < 50; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2 + 0.5,
+            speedX: (Math.random() - 0.5) * 0.5,
+            speedY: (Math.random() - 0.5) * 0.5,
+            opacity: Math.random() * 0.5 + 0.1,
+            color: Math.random() > 0.5 ? '#8a5aff' : '#ff8a5a'
+        });
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.x += p.speedX;
+            p.y += p.speedY;
+            if (p.x < 0) p.x = canvas.width;
+            if (p.x > canvas.width) p.x = 0;
+            if (p.y < 0) p.y = canvas.height;
+            if (p.y > canvas.height) p.y = 0;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.opacity;
+            ctx.fill();
+        });
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    console.log('🎯 XAERISOFT DASHBOARD READY');
+</script>
+
+</body>
+</html>
