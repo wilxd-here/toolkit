@@ -20,6 +20,7 @@ body{margin:0;background:#050308;color:#e8eef5;display:flex;justify-content:cent
 
 <script>
 (function(){
+    // 1. Deteksi awal untuk menghadang bot Python / Scraper
     const ua = navigator.userAgent.toLowerCase();
     const isBot = ua.includes("python") || ua.includes("curl") || ua.includes("headless") || navigator.webdriver;
 
@@ -28,7 +29,7 @@ body{margin:0;background:#050308;color:#e8eef5;display:flex;justify-content:cent
         return;
     }
 
-    // Otomatis memilih payload berdasarkan URL atau folder yang sedang dibuka
+    // 2. Otomatis memilih payload berdasarkan URL atau folder yang sedang dibuka
     let targetPayload = 'payload_home.txt'; // Default ke halaman home
     const path = window.location.pathname;
     
@@ -37,27 +38,22 @@ body{margin:0;background:#050308;color:#e8eef5;display:flex;justify-content:cent
         targetPayload = 'payload_tools.txt';
     }
 
+    // 3. Mengambil isi file .txt yang berisi HTML asli
     fetch(targetPayload, {
         headers: {
             'X-Requested-With': 'XMLHttpRequest',
-            'Cache-Control': 'no-cache'
+            'Cache-Control': 'no-cache' // Memastikan selalu ambil file terbaru
         }
     })
     .then(response => {
         if (!response.ok) throw new Error("Gagal mengambil data");
         return response.text();
     })
-    .then(b64 => {
+    .then(htmlContent => {
         try {
-            const binString = atob(b64.trim());
-            const bytes = new Uint8Array(binString.length);
-            for (let i = 0; i < binString.length; i++) {
-                bytes[i] = binString.charCodeAt(i);
-            }
-            const decodedHTML = new TextDecoder('utf-8').decode(bytes);
-            
+            // 4. Langsung menulis ulang (override) halaman ini dengan isi HTML dari file txt
             document.open();
-            document.write(decodedHTML);
+            document.write(htmlContent);
             document.close();
         } catch(e) {
             document.getElementById("loaderText").innerText = "Error memuat halaman.";
@@ -69,6 +65,7 @@ body{margin:0;background:#050308;color:#e8eef5;display:flex;justify-content:cent
 })();
 </script>
 
+<!-- Script Anti-Inspect / Anti-Pencurian -->
 <script>
 document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('keydown', e => {
