@@ -434,27 +434,7 @@
 </footer>
 
 <script>
-    // ============================================================
-    // VVIP ACCESS CHECK
-    // ============================================================
-    (function() {
-        var session = null;
-        try {
-            session = JSON.parse(localStorage.getItem('xaerisoft_vvip_session') || 'null');
-        } catch(e) {}
-
-        if (!session || !session.isVVIP || !session.username) {
-            window.location.href = '../../login/';
-            return;
-        }
-
-        if (session.expiresAt && new Date(session.expiresAt) < new Date()) {
-            localStorage.removeItem('xaerisoft_vvip_session');
-            window.location.href = '../../login/';
-            return;
-        }
-    })();
-
+    
     // ============================================================
     // STATE
     // ============================================================
