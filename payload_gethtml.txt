@@ -375,8 +375,8 @@
 
 <!-- NAVBAR -->
 <nav class="navbar">
-    <a href="../../vvip/" class="logo">XAERI<span>SOFT</span></a>
-    <a href="../../vvip/" class="back">← Dashboard</a>
+    <a href="?go=tools" class="logo">XAERI<span>SOFT</span></a>
+    <a href="?go=tools" class="back">← Dashboard</a>
 </nav>
 
 <!-- CONTAINER -->
@@ -434,7 +434,6 @@
 </footer>
 
 <script>
-    
     // ============================================================
     // STATE
     // ============================================================
@@ -491,11 +490,10 @@
         addLog(`🔗 URL: ${url}`, 'info');
 
         try {
-            // Pake CORS proxy biar bisa fetch dari browser
             const proxies = [
                 'https://api.allorigins.win/raw?url=',
-                'https://corsproxy.io/?',
-                'https://api.codetabs.com/v1/proxy?quest='
+                'https://api.codetabs.com/v1/proxy?quest=',
+                'https://corsproxy.io/?'
             ];
 
             let html = null;
@@ -524,10 +522,9 @@
             }
 
             if (!html) {
-                throw new Error('Semua proxy gagal');
+                throw new Error('Semua jalur proxy gagal terhubung');
             }
 
-            // Batasi ukuran
             if (html.length > 2 * 1024 * 1024) {
                 html = html.substring(0, 2 * 1024 * 1024);
                 addLog('⚠️ HTML dipotong (max 2MB)', 'info');
@@ -535,10 +532,8 @@
 
             addLog(`📄 HTML: ${(html.length / 1024).toFixed(1)} KB`, 'success');
 
-            // Parse CSS & JS
             addLog('🎨 Mencari CSS...', 'info');
             const cssUrls = [];
-
             const cssRegex1 = /<link[^>]+rel=["']stylesheet["'][^>]*href=["']([^"']+)["'][^>]*>/gi;
             const cssRegex2 = /<link[^>]+href=["']([^"']+)["'][^>]*rel=["']stylesheet["'][^>]*>/gi;
 
@@ -548,7 +543,6 @@
 
             addLog(`📊 Ketemu ${cssUrls.length} CSS`, 'info');
 
-            // Fetch CSS
             const cssFiles = [];
             for (const cssUrl of [...new Set(cssUrls)].slice(0, 10)) {
                 try {
@@ -562,7 +556,6 @@
                 }
             }
 
-            // Parse JS
             addLog('⚡ Mencari JS...', 'info');
             const jsUrls = [];
             const jsRegex = /<script[^>]+src=["']([^"']+)["'][^>]*>/gi;
@@ -570,7 +563,6 @@
 
             addLog(`📊 Ketemu ${jsUrls.length} JS`, 'info');
 
-            // Fetch JS
             const jsFiles = [];
             for (const jsUrl of [...new Set(jsUrls)].slice(0, 10)) {
                 try {
@@ -583,7 +575,7 @@
                     addLog(`⚠️ JS gagal: ${jsUrl}`, 'error');
                 }
             }
-       // Gabungin ALL
+       
             let allContent = `/* ============================================\n   🔥 XAERISOFT — ALL ASSETS\n   URL: ${url}\n   HTML: ${html.length} bytes\n   CSS: ${cssFiles.length} file\n   JS: ${jsFiles.length} file\n============================================ */\n\n`;
             allContent += '<!-- ==================== HTML ==================== -->\n';
             allContent += html + '\n\n';
@@ -598,25 +590,20 @@
                 allContent += f.content + '\n\n';
             });
 
-            // Simpen state
             state.html = html;
             state.css = cssFiles;
             state.js = jsFiles;
             state.all = allContent;
             state.activeTab = 'html';
 
-            // Stats
             statsRow.innerHTML = `
                 <div class="stat-pill">📄 HTML: ${(html.length / 1024).toFixed(1)} KB</div>
                 <div class="stat-pill">🎨 CSS: ${cssFiles.length} file</div>
                 <div class="stat-pill">⚡ JS: ${jsFiles.length} file</div>
                 <div class="stat-pill">✅ via ${successProxy.split('/')[2]}</div>
             `;
-
-            // Tampilkan
-            resultBox.classList.add('show');
+resultBox.classList.add('show');
             switchTab('html');
-
             addLog('✅ SELESAI!', 'success');
 
         } catch (e) {
