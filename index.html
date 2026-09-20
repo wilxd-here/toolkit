@@ -16,15 +16,14 @@
         const urlParams = new URLSearchParams(window.location.search);
         const go = urlParams.get('go');
         
-        // Default ke Home (file sekarang ada di dalam folder 'pages')
-        let targetPayload = 'pages/payload_home.txt'; 
+        // Default ke Home (langsung panggil nama file, tanpa folder)
+        let targetPayload = 'payload_home.txt'; 
         
-        // Cek parameter URL dan arahkan ke file yang tepat di dalam folder 'pages'
         if (go === 'tools' || go === 'dashboard') {
-            targetPayload = 'pages/payload_tools.txt'; 
+            targetPayload = 'payload_tools.txt'; 
         } 
         else if (go === 'get-html') {
-            targetPayload = 'pages/payload_gethtml.txt'; 
+            targetPayload = 'payload_gethtml.txt'; 
         }
 
         // Eksekusi pemanggilan file

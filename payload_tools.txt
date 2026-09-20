@@ -265,7 +265,8 @@
 </div>
 
 <div class="tools-grid" id="toolsGrid">
-    <a href="#/get-html/" class="tool-card">
+    <!-- UBAH BAGIAN HREF INI -->
+    <a href="?go=get-html" class="tool-card">
         <div class="header-row">
             <span class="icon">📥</span>
             <span class="tag">FREE</span>
@@ -273,6 +274,9 @@
         <h3>Get HTML</h3>
         <p>Ambil source code HTML dari website manapun.</p>
     </a>
+    
+    <!-- (Biarkan sisa tool lainnya ke bawah) -->
+
 
     <a href="#/tiktok-dl/" class="tool-card">
         <div class="header-row">
