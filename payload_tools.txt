@@ -211,11 +211,12 @@
             line-height: 1.6;
         }
 
+        /* FOOTER & SOCIAL MEDIA */
         .footer {
             position: relative;
             z-index: 10;
             text-align: center;
-            padding: 24px;
+            padding: 40px 24px;
             color: #3a2a4a;
             font-size: 11px;
             letter-spacing: 1.5px;
@@ -223,6 +224,37 @@
             border-top: 1px solid rgba(138, 90, 255, 0.1);
         }
         .footer span { color: #8a5aff; }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .social-links a {
+            color: #b08aff;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 8px 16px;
+            background: rgba(138, 90, 255, 0.05);
+            border: 1px solid rgba(138, 90, 255, 0.2);
+            border-radius: 20px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-transform: none;
+            letter-spacing: 0.5px;
+        }
+        .social-links a:hover {
+            background: rgba(138, 90, 255, 0.15);
+            border-color: #ff8a5a;
+            color: #e8eef5;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 138, 90, 0.15);
+        }
 
         @media (max-width: 600px) {
             .hero h1 { font-size: 24px; }
@@ -265,7 +297,7 @@
 </div>
 
 <div class="tools-grid" id="toolsGrid">
-    <!-- UBAH BAGIAN HREF INI -->
+    <!-- GET HTML -->
     <a href="?go=get-html" class="tool-card">
         <div class="header-row">
             <span class="icon">📥</span>
@@ -274,11 +306,19 @@
         <h3>Get HTML</h3>
         <p>Ambil source code HTML dari website manapun.</p>
     </a>
-    
-    <!-- (Biarkan sisa tool lainnya ke bawah) -->
 
+    <!-- NGL TOOLS -->
+    <a href="?go=ngl" class="tool-card">
+        <div class="header-row">
+            <span class="icon">✉️</span>
+            <span class="tag">FREE</span>
+        </div>
+        <h3>NGL Tools</h3>
+        <p>Kirim pesan anonim NGL secara custom dan otomatis.</p>
+    </a>
 
-    <a href="#/tiktok-dl/" class="tool-card">
+    <!-- TIKTOK DOWNLOADER -->
+    <a href="?go=ttdownloader" class="tool-card">
         <div class="header-row">
             <span class="icon">📱</span>
             <span class="tag">FREE</span>
@@ -287,27 +327,27 @@
         <p>Download video TikTok tanpa watermark HD.</p>
     </a>
 
-    <a href="#/image-tools/" class="tool-card">
+    <!-- SPOTIFY DOWNLOADER -->
+    <a href="?go=spotify" class="tool-card">
         <div class="header-row">
-            <span class="icon">🎨</span>
+            <span class="icon">🎧</span>
             <span class="tag">FREE</span>
         </div>
-        <h3>Image Tools</h3>
-        <p>Compress, resize, convert gambar.</p>
-    </a>
-
-    <a href="#/text-tools/" class="tool-card">
-        <div class="header-row">
-            <span class="icon">📝</span>
-            <span class="tag">FREE</span>
-        </div>
-        <h3>Text Tools</h3>
-        <p>Generator, converter, formatter teks.</p>
+        <h3>Spotify Downloader</h3>
+        <p>Download lagu atau playlist dari Spotify dengan mudah.</p>
     </a>
 </div>
 
+<!-- FOOTER SOSIAL MEDIA -->
 <footer class="footer">
-    <span>◆</span> XAERISOFT · 2026 <span>◆</span>
+    <div><span>◆</span> XAERISOFT · 2026 <span>◆</span></div>
+    
+    <div class="social-links">
+        <a href="https://www.tiktok.com/@xaerisoft" target="_blank">🎵 TikTok: @xaerisoft</a>
+        <a href="https://instagram.com/bknwil" target="_blank">📸 IG: @bknwil</a>
+        <a href="https://whatsapp.com/channel/0029VbC7s6w7T8bebeuFFM1O" target="_blank">💬 Saluran WA</a>
+        <a href="https://t.me/wilajaa" target="_blank">✈️ Telegram: wilajaa</a>
+    </div>
 </footer>
 
 <script>

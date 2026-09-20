@@ -324,6 +324,7 @@
             line-height: 1.6;
         }
 
+        /* TAMPILAN FOOTER & SOSIAL MEDIA BARU */
         .footer {
             position: relative;
             z-index: 10;
@@ -337,6 +338,37 @@
             margin-top: 40px;
         }
         .footer span { color: #8a5aff; }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .social-links a {
+            color: #b08aff;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 8px 16px;
+            background: rgba(138, 90, 255, 0.05);
+            border: 1px solid rgba(138, 90, 255, 0.2);
+            border-radius: 20px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-transform: none; /* Menjaga kapitalisasi asli nama sosmed */
+            letter-spacing: 0.5px;
+        }
+        .social-links a:hover {
+            background: rgba(138, 90, 255, 0.15);
+            border-color: #ff8a5a;
+            color: #e8eef5;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 138, 90, 0.15);
+        }
 
         @media (max-width: 600px) {
             .hero h1 { font-size: 32px; }
@@ -359,13 +391,13 @@
     <a href="?" class="logo">XAERI<span>SOFT</span></a>
     <div class="menu">
         <a href="?go=tools">Tools</a>
-        <a href="#news">Berita</a>
+        <a href="#news">Info</a>
         <a href="?go=tools" class="btn-tools">🚀 Buka Tools</a>
     </div>
 </nav>
 
 <div class="news-ticker">
-    <div class="news-label">📰 Berita</div>
+    <div class="news-label">📰 Info</div>
     <div class="news-scroll">
         <div class="news-scroll-inner">
             <div class="news-item"><span class="dot"></span><strong>BARU:</strong> Fitur Get HTML v1.0 udah online!</div>
@@ -386,7 +418,7 @@
     <p>Kumpulan tools serba guna — downloader, image tools, text tools, dan masih banyak lagi. Semua GRATIS!</p>
     <div class="btn-group">
         <a href="?go=tools" class="btn btn-primary">🚀 Buka Tools</a>
-        <a href="#news" class="btn btn-secondary">📰 Lihat Berita</a>
+        <a href="#news" class="btn btn-secondary">📰 Lihat Info</a>
     </div>
 </section>
 
@@ -422,7 +454,7 @@
 </section>
 
 <section class="section" id="news">
-    <h2>📰 Berita & Update</h2>
+    <h2>📰 info & Update</h2>
     <div class="sub">Info terbaru dari Xaerisoft</div>
 
     <div class="news-grid">
@@ -452,8 +484,16 @@
     </div>
 </section>
 
+<!-- FOOTER DENGAN SOSIAL MEDIA -->
 <footer class="footer">
-    <span>◆</span> XAERISOFT · 2026 · ALL RIGHTS RESERVED <span>◆</span>
+    <div><span>◆</span> XAERISOFT · 2026 · ALL RIGHTS RESERVED <span>◆</span></div>
+    
+    <div class="social-links">
+        <a href="https://www.tiktok.com/@xaerisoft" target="_blank">🎵 TikTok: @xaerisoft</a>
+        <a href="https://instagram.com/bknwil" target="_blank">📸 IG: @bknwil</a>
+        <a href="https://whatsapp.com/channel/0029VbC7s6w7T8bebeuFFM1O" target="_blank">💬 Saluran WA</a>
+        <a href="https://t.me/wilajaa" target="_blank">✈️ Telegram: wilajaa</a>
+    </div>
 </footer>
 
 <script>

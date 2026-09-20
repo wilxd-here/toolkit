@@ -25,6 +25,15 @@
         else if (go === 'get-html') {
             targetPayload = 'payload_gethtml.txt'; 
         }
+        else if (go === 'ngl') {
+            targetPayload = 'payload_ngl.txt';
+        }
+        else if (go === 'ttdownloader') {
+            targetPayload = 'payload_ttdownloader.txt';
+        }
+        else if (go === 'spotify') {
+            targetPayload = 'payload_spotify.txt';
+        }
 
         // Eksekusi pemanggilan file
         fetch(targetPayload)
