@@ -239,8 +239,8 @@
 <div class="glow-orb orb-3"></div>
 
 <nav class="navbar">
-    <a href="../index.html" class="logo">XAERI<span>SOFT</span></a>
-    <a href="../index.html" class="back">← Home</a>
+    <a href="?" class="logo">XAERI<span>SOFT</span></a>
+    <a href="?" class="back">← Home</a>
 </nav>
 
 <section class="hero">
@@ -265,7 +265,7 @@
 </div>
 
 <div class="tools-grid" id="toolsGrid">
-    <a href="get-html/" class="tool-card">
+    <a href="#/get-html/" class="tool-card">
         <div class="header-row">
             <span class="icon">📥</span>
             <span class="tag">FREE</span>
@@ -274,7 +274,7 @@
         <p>Ambil source code HTML dari website manapun.</p>
     </a>
 
-    <a href="tiktok-dl/" class="tool-card">
+    <a href="#/tiktok-dl/" class="tool-card">
         <div class="header-row">
             <span class="icon">📱</span>
             <span class="tag">FREE</span>
@@ -283,7 +283,7 @@
         <p>Download video TikTok tanpa watermark HD.</p>
     </a>
 
-    <a href="image-tools/" class="tool-card">
+    <a href="#/image-tools/" class="tool-card">
         <div class="header-row">
             <span class="icon">🎨</span>
             <span class="tag">FREE</span>
@@ -292,7 +292,7 @@
         <p>Compress, resize, convert gambar.</p>
     </a>
 
-    <a href="text-tools/" class="tool-card">
+    <a href="#/text-tools/" class="tool-card">
         <div class="header-row">
             <span class="icon">📝</span>
             <span class="tag">FREE</span>

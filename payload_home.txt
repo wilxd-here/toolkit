@@ -356,11 +356,11 @@
 <div class="glow-orb orb-3"></div>
 
 <nav class="navbar">
-    <a href="index.html" class="logo">XAERI<span>SOFT</span></a>
+    <a href="?" class="logo">XAERI<span>SOFT</span></a>
     <div class="menu">
-        <a href="tools/">Tools</a>
+        <a href="?go=tools">Tools</a>
         <a href="#news">Berita</a>
-        <a href="tools/" class="btn-tools">🚀 Buka Tools</a>
+        <a href="?go=tools" class="btn-tools">🚀 Buka Tools</a>
     </div>
 </nav>
 
@@ -385,7 +385,7 @@
     <h1>Xaerisoft Toolkit</h1>
     <p>Kumpulan tools serba guna — downloader, image tools, text tools, dan masih banyak lagi. Semua GRATIS!</p>
     <div class="btn-group">
-        <a href="tools/" class="btn btn-primary">🚀 Buka Tools</a>
+        <a href="?go=tools" class="btn btn-primary">🚀 Buka Tools</a>
         <a href="#news" class="btn btn-secondary">📰 Lihat Berita</a>
     </div>
 </section>
@@ -395,25 +395,25 @@
     <div class="sub">Semua tools gratis, tinggal pake!</div>
 
     <div class="info-grid">
-        <a href="tools/get-html/" class="info-card">
+        <a href="?go=tools" class="info-card">
             <span class="icon">📥</span>
             <h3>Get HTML</h3>
             <p>Ambil source code HTML dari website manapun.</p>
         </a>
 
-        <a href="tools/tiktok-dl/" class="info-card">
+        <a href="?go=tools" class="info-card">
             <span class="icon">📱</span>
             <h3>TikTok Downloader</h3>
             <p>Download video TikTok tanpa watermark HD.</p>
         </a>
 
-        <a href="tools/image-tools/" class="info-card">
+        <a href="?go=tools" class="info-card">
             <span class="icon">🎨</span>
             <h3>Image Tools</h3>
             <p>Compress, resize, convert gambar.</p>
         </a>
 
-        <a href="tools/text-tools/" class="info-card">
+        <a href="?go=tools" class="info-card">
             <span class="icon">📝</span>
             <h3>Text Tools</h3>
             <p>Generator, converter, formatter teks.</p>
