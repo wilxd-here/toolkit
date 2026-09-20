@@ -13,16 +13,18 @@
 <body>
     <div class="loader">Memuat Xaerisoft...</div>
     <script>
-        // MENGGUNAKAN PARAMETER URL (Trik Anti-404 Vercel)
         const urlParams = new URLSearchParams(window.location.search);
         const go = urlParams.get('go');
         
-        // Default ke Home
-        let targetPayload = 'payload_home.txt'; 
+        // Default ke Home (file sekarang ada di dalam folder 'pages')
+        let targetPayload = 'pages/payload_home.txt'; 
         
-        // Jika URL adalah domain.com/?go=tools
+        // Cek parameter URL dan arahkan ke file yang tepat di dalam folder 'pages'
         if (go === 'tools' || go === 'dashboard') {
-            targetPayload = 'payload_tools.txt'; 
+            targetPayload = 'pages/payload_tools.txt'; 
+        } 
+        else if (go === 'get-html') {
+            targetPayload = 'pages/payload_gethtml.txt'; 
         }
 
         // Eksekusi pemanggilan file
@@ -37,7 +39,7 @@
                 document.close();
             })
             .catch(err => {
-                document.body.innerHTML = '<div class="loader">Terjadi Kesalahan. Refresh halaman.</div>';
+                document.body.innerHTML = '<div style="text-align:center"><h1>Error</h1><p>File ' + targetPayload + ' tidak ditemukan.</p></div>';
             });
     </script>
 </body>
