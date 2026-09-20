@@ -13,32 +13,31 @@
 <body>
     <div class="loader">Memuat Xaerisoft...</div>
     <script>
-        // Logika Routing Xaerisoft
-        const path = window.location.pathname;
+        // MENGGUNAKAN PARAMETER URL (Trik Anti-404 Vercel)
+        const urlParams = new URLSearchParams(window.location.search);
+        const go = urlParams.get('go');
         
-        // 1. Secara default, arahkan ke file Home
-        // WAJIB ADA GARIS MIRING (/) DI DEPAN NAMA FILE
-        let targetPayload = '/payload_home.txt'; 
+        // Default ke Home
+        let targetPayload = 'payload_home.txt'; 
         
-        // 2. Jika URL mengandung kata "tools" atau "dashboard", arahkan ke file Tools
-        if (path.includes('tools') || path.includes('dashboard')) {
-            targetPayload = '/payload_tools.txt'; 
+        // Jika URL adalah domain.com/?go=tools
+        if (go === 'tools' || go === 'dashboard') {
+            targetPayload = 'payload_tools.txt'; 
         }
 
-        // 3. Eksekusi pemanggilan file
+        // Eksekusi pemanggilan file
         fetch(targetPayload)
             .then(response => {
                 if (!response.ok) throw new Error('Gagal memuat');
                 return response.text();
             })
             .then(html => {
-                // Tampilkan isi file payload
                 document.open();
                 document.write(html);
                 document.close();
             })
             .catch(err => {
-                document.body.innerHTML = '<h1></h1><p>Memuat</p>';
+                document.body.innerHTML = '<div class="loader">Terjadi Kesalahan. Refresh halaman.</div>';
             });
     </script>
 </body>
