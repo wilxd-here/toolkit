@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Card Generator · Xaerisoft</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #050308;
+            color: #e8eef5;
+            font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* BACKGROUND EFFECTS */
+        #particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            animation: float 15s ease-in-out infinite;
+        }
+        .orb-1 { width: 400px; height: 400px; background: #8a5aff; top: -100px; left: -100px; }
+        .orb-2 { width: 350px; height: 350px; background: #ff5a8a; bottom: -100px; right: -100px; animation-delay: -5s; }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, -50px) scale(1.1); }
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 16px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(138, 90, 255, 0.15);
+            backdrop-filter: blur(20px);
+            background: rgba(5, 3, 8, 0.8);
+        }
+        .navbar .logo {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #b08aff, #ff8a5a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+        .navbar .logo span { color: #e8eef5; -webkit-text-fill-color: #e8eef5; }
+        .navbar .back {
+            padding: 8px 18px;
+            background: transparent;
+            color: #b08aff;
+            border: 1px solid rgba(138, 90, 255, 0.3);
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .navbar .back:hover { background: rgba(138, 90, 255, 0.1); }
+
+        /* MAIN CONTAINER */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 24px;
+            flex-grow: 1;
+            width: 100%;
+        }
+        .header-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header-title h1 {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #b08aff, #ff8a5a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-title p { color: #8a7aaa; font-size: 14px; margin-top: 8px; }
+
+        /* GRID LAYOUT */
+        .app-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        @media (max-width: 768px) {
+            .app-grid { grid-template-columns: 1fr; }
+        }
+
+        /* CARD STYLE */
+        .glass-card {
+            background: rgba(20, 10, 35, 0.5);
+            border: 1px solid rgba(138, 90, 255, 0.15);
+            border-radius: 18px;
+            padding: 24px;
+            backdrop-filter: blur(20px);
+        }
+        .glass-card h3 { font-size: 16px; margin-bottom: 20px; color: #b08aff; border-bottom: 1px solid rgba(138, 90, 255, 0.2); padding-bottom: 10px; }
+
+        /* FORM ELEMENTS */
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 12px; color: #8a7aaa; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(138, 90, 255, 0.3);
+            border-radius: 12px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            transition: 0.3s;
+            outline: none;
+        }
+        .form-group input:focus { border-color: #ff8a5a; box-shadow: 0 0 15px rgba(255, 138, 90, 0.2); }
+        
+        /* STYLE INPUT FILE */
+        input[type="file"] {
+            padding: 10px;
+            color: #8a7aaa;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px dashed rgba(138, 90, 255, 0.4);
+            cursor: pointer;
+        }
+        input[type="file"]::-webkit-file-upload-button {
+            background: rgba(138, 90, 255, 0.2);
+            border: 1px solid rgba(138, 90, 255, 0.5);
+            color: #b08aff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-right: 12px;
+            transition: 0.3s;
+        }
+        input[type="file"]::-webkit-file-upload-button:hover { background: rgba(138, 90, 255, 0.4); color: #fff; }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #8a5aff, #ff8a5a);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 20px rgba(138, 90, 255, 0.3);
+            margin-top: 10px;
+        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 138, 90, 0.4); }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        /* RESULT AREA */
+        .result-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            text-align: center;
+            border: 1px dashed rgba(138, 90, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .result-img {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: none;
+        }
+        .loader {
+            display: none;
+            border: 3px solid rgba(138, 90, 255, 0.2);
+            border-top: 3px solid #ff8a5a;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .placeholder-text { color: #6a5a7a; font-size: 13px; }
+        
+        .btn-download {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 24px;
+            background: rgba(138, 90, 255, 0.1);
+            border: 1px solid #b08aff;
+            border-radius: 20px;
+            color: #b08aff;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+        .btn-download:hover { background: #b08aff; color: #050308; }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 30px 24px;
+            color: #3a2a4a;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            z-index: 10;
+            border-top: 1px solid rgba(138, 90, 255, 0.1);
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<div class="glow-orb orb-1"></div>
+<div class="glow-orb orb-2"></div>
+
+<nav class="navbar">
+    <a href="?go=tools" class="logo">XAERI<span>SOFT</span></a>
+    <a href="?go=tools" class="back">← Kembali ke Tools</a>
+</nav>
+
+<div class="container">
+    <div class="header-title">
+        <h1>Music Card Generator</h1>
+        <p>Buat kartu pemutar musik aesthetic dengan foto cover lagumu sendiri.</p>
+    </div>
+
+    <div class="app-grid">
+        <!-- FORM PENGISIAN -->
+        <div class="glass-card">
+            <h3>🎵 Pengaturan Musik</h3>
+            <div class="form-group">
+                <label>Judul Lagu</label>
+                <input type="text" id="musicTitle" placeholder="Contoh: Sialan" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Nama Artis</label>
+                <input type="text" id="musicArtist" placeholder="Contoh: Mahalini" required>
+            </div>
+
+            <div class="form-group">
+                <label>Upload Cover Album</label>
+                <input type="file" id="musicCover" accept="image/*">
+                <div style="font-size: 10px; color: #6a5a7a; margin-top: 6px;">*Wajib diunggah agar hasilnya maksimal.</div>
+            </div>
+
+            <button class="btn-submit" id="btnGenerate" onclick="generateMusicCard()">Generate Card</button>
+        </div>
+
+        <!-- HASIL GENERATE -->
+        <div class="glass-card">
+            <h3>🖼️ Hasil Gambar</h3>
+            <div class="result-container">
+                <div class="placeholder-text" id="placeholder">Isi form di samping lalu klik Generate.</div>
+                <div class="loader" id="loader"></div>
+                <img id="resultImg" class="result-img" alt="Music Card Result" crossorigin="anonymous">
+            </div>
+            <div style="text-align: center;">
+                <a href="#" class="btn-download" id="btnDownload" target="_blank">Unduh Gambar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div>◆ XAERISOFT · 2026 ◆</div>
+</footer>
+
+<script>
+    // ANIMASI BACKGROUND
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize(); window.addEventListener('resize', resize);
+
+    const particles = [];
+    for (let i = 0; i < 40; i++) {
+        particles.push({
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            size: Math.random() * 2 + 0.5, speedX: (Math.random() - 0.5) * 0.5, speedY: (Math.random() - 0.5) * 0.5,
+            opacity: Math.random() * 0.5 + 0.1, color: Math.random() > 0.5 ? '#8a5aff' : '#ff8a5a'
+        });
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.x += p.speedX; p.y += p.speedY;
+            if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+            if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = p.color; ctx.globalAlpha = p.opacity; ctx.fill();
+        });
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    // LOGIKA GENERATOR MUSIC CARD
+    async function generateMusicCard() {
+        const title = document.getElementById('musicTitle').value.trim();
+        const artist = document.getElementById('musicArtist').value.trim();
+        const fileInput = document.getElementById('musicCover');
+
+        if (!title || !artist) {
+            alert("Harap isi Judul Lagu dan Nama Artis!");
+            return;
+        }
+
+        // Referensi UI
+        const btn = document.getElementById('btnGenerate');
+        const loader = document.getElementById('loader');
+        const placeholder = document.getElementById('placeholder');
+        const resultImg = document.getElementById('resultImg');
+        const btnDownload = document.getElementById('btnDownload');
+
+        // Loading state
+        btn.disabled = true;
+        placeholder.style.display = "none";
+        resultImg.style.display = "none";
+        btnDownload.style.display = "none";
+        loader.style.display = "block";
+
+        let finalImageUrl = ""; // Akan diisi URL dari Nexa Uploader
+
+        // PROSES UPLOAD KE NEXA UPLODER JIKA ADA FILE
+        if (fileInput.files.length > 0) {
+            btn.innerText = "Mengunggah Cover...";
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append("files[]", file);
+
+            try {
+                // Menggunakan endpoint Nexadev yang sama dengan script.js kamu
+                const uploadResponse = await fetch("https://api.nexadev.my.id/uploder/", {
+                    method: "POST",
+                    body: formData
+                });
+                
+                const uploadData = await uploadResponse.json();
+                
+                if (uploadData.success && uploadData.files && uploadData.files[0].url) {
+                    finalImageUrl = uploadData.files[0].url; 
+                } else {
+                    throw new Error("Gagal mengunggah foto ke server.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Gagal mengunggah gambar. Pastikan file valid atau coba beberapa saat lagi.");
+                
+                // Reset loading
+                loader.style.display = "none";
+                placeholder.style.display = "block";
+                btn.disabled = false;
+                btn.innerText = "Generate Card";
+                return;
+            }
+        } else {
+            alert("Harap upload gambar cover terlebih dahulu!");
+            loader.style.display = "none";
+            placeholder.style.display = "block";
+            btn.disabled = false;
+            btn.innerText = "Generate Card";
+            return;
+        }
+
+        btn.innerText = "Membuat Music Card...";
+
+        // Susun URL API Endpoint Nexray untuk Music Card
+        const apiUrl = `https://api.nexray.eu.cc/canvas/musiccard?judul=${encodeURIComponent(title)}&nama=${encodeURIComponent(artist)}&image_url=${encodeURIComponent(finalImageUrl)}`;
+
+        // Eksekusi pemanggilan gambar hasil
+        resultImg.onload = function() {
+            loader.style.display = "none";
+            resultImg.style.display = "block";
+            btnDownload.style.display = "inline-block";
+            btnDownload.href = apiUrl; // Link siap didownload user
+            
+            btn.disabled = false;
+            btn.innerText = "Generate Ulang";
+        };
+
+        resultImg.onerror = function() {
+            loader.style.display = "none";
+            placeholder.style.display = "block";
+            placeholder.innerHTML = "<span style='color:#ff5a8a'>Gagal memproses kartu musik dari server. Silakan coba lagi.</span>";
+            
+            btn.disabled = false;
+            btn.innerText = "Coba Lagi";
+        };
+
+        // Render hasil
+        resultImg.src = apiUrl + "&_t=" + Date.now(); // Cache bypass
+    }
+</script>
+
+</body>
+</html>

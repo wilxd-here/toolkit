@@ -283,7 +283,7 @@
 
 <div class="stats">
     <div class="stat">
-        <div class="value" id="toolCount">4</div>
+        <div class="value" id="toolCount">13</div>
         <div class="label">Tools</div>
     </div>
     <div class="stat">
@@ -335,6 +335,96 @@
         </div>
         <h3>Spotify Downloader</h3>
         <p>Download lagu atau playlist dari Spotify dengan mudah.</p>
+    </a>
+
+    <!-- IG TOOLS -->
+    <a href="?go=ig" class="tool-card">
+        <div class="header-row">
+            <span class="icon">📸</span>
+            <span class="tag">FREE</span>
+        </div>
+        <h3>IG Tools</h3>
+        <p>Kumpulan tools fungsional untuk kebutuhan Instagram.</p>
+    </a>
+
+    <!-- INSTA DOWNLOADER -->
+    <a href="?go=insta" class="tool-card">
+        <div class="header-row">
+            <span class="icon">⬇️</span>
+            <span class="tag">FREE</span>
+        </div>
+        <h3>Insta Downloader</h3>
+        <p>Download video, reels, dan foto dari Instagram.</p>
+    </a>
+
+    <!-- IQC -->
+    <a href="?go=iqc" class="tool-card">
+        <div class="header-row">
+            <span class="icon">🔍</span>
+            <span class="tag">FREE</span>
+        </div>
+        <h3>IQC Tools</h3>
+        <p>Instagram Quality Control checker.</p>
+    </a>
+
+    <!-- LEGAL OSINT -->
+    <a href="?go=legalosint" class="tool-card">
+        <div class="header-row">
+            <span class="icon">🕵️‍♂️</span>
+            <span class="tag">FREE</span>
+        </div>
+        <h3>Legal OSINT</h3>
+        <p>Peralatan Open Source Intelligence dasar.</p>
+    </a>
+
+    <!-- MUSIC CARD -->
+    <a href="?go=musicard" class="tool-card">
+        <div class="header-row">
+            <span class="icon">🎼</span>
+            <span class="tag">FREE</span>
+        </div>
+        <h3>Music Card</h3>
+        <p>Buat kartu musik estetik kustom dengan cepat.</p>
+    </a>
+
+    <!-- QUOTE GENERATOR -->
+    <a href="?go=quote" class="tool-card">
+        <div class="header-row">
+            <span class="icon">💬</span>
+            <span class="tag">FREE</span>
+        </div>
+        <h3>Quote Generator</h3>
+        <p>Kreasikan gambar kutipan secara otomatis.</p>
+    </a>
+
+    <!-- TTQC -->
+    <a href="?go=ttqc" class="tool-card">
+        <div class="header-row">
+            <span class="icon">📊</span>
+            <span class="tag">FREE</span>
+        </div>
+        <h3>TT QC</h3>
+        <p>TikTok Quality Control dan checker tools.</p>
+    </a>
+
+    <!-- WMP -->
+    <a href="?go=wmp" class="tool-card">
+        <div class="header-row">
+            <span class="icon">🛠️</span>
+            <span class="tag">FREE</span>
+        </div>
+        <h3>WMP Tools</h3>
+        <p>Peralatan WMP serbaguna untuk berbagai kebutuhan.</p>
+    </a>
+
+    <!-- AFINITAS -->
+    <a href="?go=afinitas" class="tool-card">
+        <div class="header-row">
+            <span class="icon">💖</span>
+            <span class="tag">FREE</span>
+        </div>
+        <h3>Afinitas</h3>
+        <p>Cek kecocokan dan perhitungan afinitas.</p>
     </a>
 </div>
 

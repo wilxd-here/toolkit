@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Quote Bucin · Xaerisoft</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #050308;
+            color: #e8eef5;
+            font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* BACKGROUND EFFECTS */
+        #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .glow-orb { position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.2; z-index: 0; pointer-events: none; animation: float 15s ease-in-out infinite; }
+        .orb-1 { width: 400px; height: 400px; background: #8a5aff; top: -100px; left: -100px; }
+        .orb-2 { width: 350px; height: 350px; background: #ff5a8a; bottom: -100px; right: -100px; animation-delay: -5s; }
+        @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(50px, -50px) scale(1.1); } }
+
+        /* NAVBAR */
+        .navbar { position: sticky; top: 0; z-index: 100; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(138, 90, 255, 0.15); backdrop-filter: blur(20px); background: rgba(5, 3, 8, 0.8); }
+        .navbar .logo { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #b08aff, #ff8a5a); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; text-decoration: none; }
+        .navbar .logo span { color: #e8eef5; -webkit-text-fill-color: #e8eef5; }
+        .navbar .back { padding: 8px 18px; background: transparent; color: #b08aff; border: 1px solid rgba(138, 90, 255, 0.3); border-radius: 20px; font-weight: 700; font-size: 12px; text-decoration: none; transition: 0.2s; }
+        .navbar .back:hover { background: rgba(138, 90, 255, 0.1); }
+
+        /* MAIN CONTAINER */
+        .container { position: relative; z-index: 10; max-width: 700px; margin: 60px auto; padding: 0 24px; flex-grow: 1; width: 100%; }
+        .header-title { text-align: center; margin-bottom: 30px; }
+        .header-title h1 { font-size: 32px; font-weight: 900; background: linear-gradient(135deg, #b08aff, #ff8a5a); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .header-title p { color: #8a7aaa; font-size: 14px; margin-top: 8px; }
+
+        /* CARD STYLE */
+        .glass-card { background: rgba(20, 10, 35, 0.5); border: 1px solid rgba(138, 90, 255, 0.15); border-radius: 18px; padding: 40px; backdrop-filter: blur(20px); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 250px; }
+        
+        .quote-icon { font-size: 36px; margin-bottom: 15px; opacity: 0.8; }
+        .quote-display { font-size: 22px; font-weight: 600; line-height: 1.6; color: #fff; font-style: italic; margin-bottom: 30px; transition: 0.3s; }
+        
+        .loader { display: none; border: 3px solid rgba(138, 90, 255, 0.2); border-top: 3px solid #ff8a5a; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 30px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .btn-group { display: flex; gap: 12px; width: 100%; justify-content: center; flex-wrap: wrap; }
+        .btn { padding: 14px 24px; border: none; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .btn-primary { background: linear-gradient(135deg, #8a5aff, #ff8a5a); color: #fff; box-shadow: 0 5px 20px rgba(138, 90, 255, 0.3); flex-grow: 1; max-width: 250px; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 138, 90, 0.4); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        
+        .btn-secondary { background: rgba(138, 90, 255, 0.1); border: 1px solid #b08aff; color: #b08aff; display: none; }
+        .btn-secondary:hover { background: #b08aff; color: #050308; }
+
+        /* FOOTER */
+        .footer { text-align: center; padding: 30px 24px; color: #3a2a4a; font-size: 11px; letter-spacing: 1.5px; z-index: 10; border-top: 1px solid rgba(138, 90, 255, 0.1); margin-top: auto; }
+
+        /* TOAST NOTIFICATION */
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #b08aff; color: #050308; padding: 12px 24px; border-radius: 30px; font-weight: 700; font-size: 13px; opacity: 0; transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 1000; pointer-events: none; }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    </style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<div class="glow-orb orb-1"></div>
+<div class="glow-orb orb-2"></div>
+
+<nav class="navbar">
+    <a href="?go=tools" class="logo">XAERI<span>SOFT</span></a>
+    <a href="?go=tools" class="back">← Kembali ke Tools</a>
+</nav>
+
+<div class="container">
+    <div class="header-title">
+        <h1>Quote Bucin Acak</h1>
+        <p>Dapatkan kata-kata romantis dan gombalan maut untuk si dia secara acak.</p>
+    </div>
+
+    <div class="glass-card">
+        <div class="quote-icon">💖</div>
+        <div class="loader" id="loader"></div>
+        <div class="quote-display" id="quoteBox">"Klik tombol di bawah untuk mendapatkan quote bucin acak pertamamu."</div>
+        
+        <div class="btn-group">
+            <button class="btn btn-secondary" id="btnCopy" onclick="copyQuote()">📋 Salin Teks</button>
+            <button class="btn btn-primary" id="btnGenerate" onclick="fetchQuote()">Dapatkan Quote</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toastMsg">Teks berhasil disalin!</div>
+
+<footer class="footer">
+    <div>◆ XAERISOFT · 2026 ◆</div>
+</footer>
+
+<script>
+    // Variabel global untuk menyimpan teks hasil generate
+    let currentQuoteText = "";
+
+    // ANIMASI BACKGROUND
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize(); window.addEventListener('resize', resize);
+    const particles = [];
+    for (let i = 0; i < 40; i++) {
+        particles.push({
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            size: Math.random() * 2 + 0.5, speedX: (Math.random() - 0.5) * 0.5, speedY: (Math.random() - 0.5) * 0.5,
+            opacity: Math.random() * 0.5 + 0.1, color: Math.random() > 0.5 ? '#8a5aff' : '#ff8a5a'
+        });
+    }
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.x += p.speedX; p.y += p.speedY;
+            if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+            if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = p.color; ctx.globalAlpha = p.opacity; ctx.fill();
+        });
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    // LOGIKA FETCH API KATA BUCIN
+    async function fetchQuote() {
+        const btn = document.getElementById('btnGenerate');
+        const btnCopy = document.getElementById('btnCopy');
+        const quoteBox = document.getElementById('quoteBox');
+        const loader = document.getElementById('loader');
+
+        // Loading state
+        btn.disabled = true;
+        btn.innerText = "Mencari inspirasi...";
+        quoteBox.style.display = "none";
+        btnCopy.style.display = "none";
+        loader.style.display = "block";
+
+        try {
+            // Tambahkan timestamp agar tidak kena cache browser
+            const response = await fetch("https://api.nexadev.my.id/api/random/quotebucin?_t=" + Date.now());
+            
+            // Coba ambil respon sebagai JSON
+            const data = await response.json();
+            
+            // Logika untuk menemukan teks (karena struktur JSON API bisa bervariasi: result, data, quote, dll)
+            let resultText = data.result || data.quote || data.data || data.message;
+            
+            if (!resultText) {
+                // Jika tidak ada key di atas, tampilkan saja keseluruhan datanya (difilter agar rapi)
+                resultText = typeof data === "string" ? data : JSON.stringify(data);
+            }
+
+            currentQuoteText = resultText;
+            quoteBox.innerHTML = `"${resultText}"`;
+
+            // Tampilkan kembali elemen
+            loader.style.display = "none";
+            quoteBox.style.display = "block";
+            btnCopy.style.display = "inline-block";
+            
+        } catch (error) {
+            console.error("Fetch Error:", error);
+            loader.style.display = "none";
+            quoteBox.style.display = "block";
+            quoteBox.innerHTML = "<span style='color:#ff5a8a;'>Gagal mengambil quote dari server. Silakan coba lagi.</span>";
+            currentQuoteText = "";
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "Quote Lainnya";
+        }
+    }
+
+    // FUNGSI COPY CLIPBOARD + TOAST
+    function copyQuote() {
+        if (!currentQuoteText) return;
+        
+        navigator.clipboard.writeText(currentQuoteText).then(() => {
+            const toast = document.getElementById('toastMsg');
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000); // Hilang setelah 3 detik
+        }).catch(err => {
+            alert("Gagal menyalin teks!");
+            console.error(err);
+        });
+    }
+</script>
+
+</body>
+</html>

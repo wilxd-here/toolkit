@@ -430,7 +430,7 @@
 
 <!-- FOOTER -->
 <footer class="footer">
-    <span>◆</span> XAERISOFT VVIP · GET HTML <span>◆</span>
+    <span>◆</span> XAERISOFT · GET HTML <span>◆</span>
 </footer>
 
 <script>

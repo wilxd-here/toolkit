@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Downloader · Xaerisoft</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #050308;
+            color: #e8eef5;
+            font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(20, 10, 35, 0.5);
+            border: 1px solid rgba(138, 90, 255, 0.15);
+            border-radius: 18px;
+            padding: 30px;
+            backdrop-filter: blur(20px);
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(138, 90, 255, 0.1);
+        }
+        .icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+            display: inline-block;
+            filter: drop-shadow(0 0 15px rgba(138, 90, 255, 0.4));
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #b08aff, #ff8a5a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p {
+            color: #8a7aaa;
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(138, 90, 255, 0.3);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+        input:focus {
+            border-color: #8a5aff;
+            box-shadow: 0 0 15px rgba(138, 90, 255, 0.2);
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #8a5aff, #b08aff);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(138, 90, 255, 0.3);
+        }
+        button:disabled {
+            background: #3a2a4a;
+            color: #8a7aaa;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* Area Hasil */
+        #resultArea {
+            margin-top: 24px;
+            display: none; /* Sembunyikan default */
+            padding-top: 20px;
+            border-top: 1px solid rgba(138, 90, 255, 0.15);
+        }
+        .result-card {
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .btn-download {
+            display: inline-block;
+            width: 100%;
+            margin-top: 10px;
+            padding: 12px;
+            background: #4aff9e;
+            color: #050308;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+        .error-msg {
+            color: #ff5a8a;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <span class="icon">📸</span>
+    <h1>IG Downloader</h1>
+    <p>Download Video Reels, Post, atau IGTV tanpa watermark.</p>
+
+    <div class="input-group">
+        <input type="text" id="igUrl" placeholder="Tempel link Instagram di sini (https://www.instagram.com/...)" autocomplete="off">
+    </div>
+    
+    <button id="btnFetch" onclick="processDownload()">Mulai Download</button>
+
+    <div id="resultArea">
+        <!-- Hasil akan muncul di sini -->
+    </div>
+</div>
+
+<script>
+    async function processDownload() {
+        const inputUrl = document.getElementById('igUrl').value.trim();
+        const btn = document.getElementById('btnFetch');
+        const resultArea = document.getElementById('resultArea');
+        
+        if (!inputUrl) {
+            alert('Tolong masukkan link Instagram terlebih dahulu!');
+            return;
+        }
+
+        // Tampilan loading
+        btn.innerText = '⏳ Sedang Memproses...';
+        btn.disabled = true;
+        resultArea.style.display = 'block';
+        resultArea.innerHTML = '<p style="color:#8a7aaa; font-size:13px;">Sedang menghubungi server...</p>';
+
+        try {
+            // Asumsi API membutuhkan parameter ?url= untuk link Instagramnya
+            // Jika format endpointnya berbeda (misal POST atau parameter lain), ubah di baris ini:
+            const endpoint = `https://code.nexadev.my.id/?snippet=ig.js&url=${encodeURIComponent(inputUrl)}`;
+            
+            const response = await fetch(endpoint);
+            const data = await response.json();
+
+            // CATATAN PENTING: 
+            // Karena saya tidak melihat langsung struktur JSON dari API nexadev, 
+            // saya menggunakan asumsi umum 'data.url' atau 'data.media'.
+            // Jika saat dijalankan error, kamu perlu mengecek isi console.log(data) 
+            // dan menyesuaikan variabel 'videoUrl' di bawah ini.
+            
+            console.log("Respon API:", data); // Cek isi JSON di inspect element -> console
+
+            // Misal API mengembalikan link download di dalam data.url atau data.data.url
+            let downloadLink = data.url || (data.data && data.data.url); 
+
+            if (downloadLink) {
+                resultArea.innerHTML = `
+                    <div class="result-card">
+                        <p style="font-size:12px; color:#4aff9e; margin-bottom:10px;">✅ Berhasil Ditemukan!</p>
+                        <a href="${downloadLink}" class="btn-download" target="_blank" rel="noopener noreferrer">⬇️ Download File</a>
+                    </div>
+                `;
+            } else {
+                resultArea.innerHTML = `<p class="error-msg">❌ Gagal mendapatkan link. Pastikan akun IG tidak diprivate atau coba link lain.</p>`;
+            }
+
+        } catch (error) {
+            console.error(error);
+            resultArea.innerHTML = `<p class="error-msg">⚠️ Terjadi kesalahan koneksi ke server API.</p>`;
+        } finally {
+            // Kembalikan tombol ke kondisi semula
+            btn.innerText = 'Mulai Download';
+            btn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
